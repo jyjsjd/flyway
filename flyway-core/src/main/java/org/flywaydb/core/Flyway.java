@@ -50,9 +50,6 @@ import org.flywaydb.core.internal.util.scanner.Scanner;
 
 import javax.sql.DataSource;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -555,22 +552,12 @@ public class Flyway implements FlywayConfiguration {
 
     @Override
     public ErrorHandler[] getErrorHandlers() {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("errorHandlers");
-
-
-
-
     }
 
     @Override
     public OutputStream getDryRunOutput() {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("dryRunOutput");
-
-
-
-
     }
 
     /**
@@ -581,12 +568,7 @@ public class Flyway implements FlywayConfiguration {
      * @param dryRunOutput The output file or {@code null} to execute the SQL statements directly against the database.
      */
     public void setDryRunOutput(OutputStream dryRunOutput) {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("dryRunOutput");
-
-
-
-
     }
 
     /**
@@ -598,41 +580,7 @@ public class Flyway implements FlywayConfiguration {
      * @param dryRunOutput The output file or {@code null} to execute the SQL statements directly against the database.
      */
     public void setDryRunOutputAsFile(File dryRunOutput) {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("dryRunOutput");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -645,12 +593,7 @@ public class Flyway implements FlywayConfiguration {
      *                             against the database.
      */
     public void setDryRunOutputAsFileName(String dryRunOutputFileName) {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("dryRunOutput");
-
-
-
-
     }
 
     /**
@@ -663,12 +606,7 @@ public class Flyway implements FlywayConfiguration {
      * @param errorHandlers The ErrorHandlers or an empty array if the default internal handler should be used instead. (default: none)
      */
     public void setErrorHandlers(ErrorHandler... errorHandlers) {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("errorHandlers");
-
-
-
-
     }
 
     /**
@@ -682,13 +620,7 @@ public class Flyway implements FlywayConfiguration {
      *                               internal handler should be used instead. (default: none)
      */
     public void setErrorHandlersAsClassNames(String... errorHandlerClassNames) {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("errorHandlers");
-
-
-
-
-
     }
 
     /**
@@ -1167,16 +1099,14 @@ public class Flyway implements FlywayConfiguration {
     public int migrate() throws FlywayException {
         return execute(new Command<Integer>() {
             public Integer execute(MigrationResolver migrationResolver,
-                                   SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
+                                   SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
                 if (validateOnMigrate) {
                     doValidate(database, migrationResolver, schemaHistory, schemas, effectiveCallbacks, true);
                 }
 
-                new DbSchemas(database, schemas, schemaHistory).create();
+                if (false) {
+                    new DbSchemas(database, schemas, schemaHistory).create();
+                }
 
                 if (!schemaHistory.exists()) {
                     List<Schema> nonEmptySchemas = new ArrayList<>();
@@ -1219,20 +1149,7 @@ public class Flyway implements FlywayConfiguration {
      * @throws FlywayException when the undo failed.
      */
     public int undo() throws FlywayException {
-
         throw new org.flywaydb.core.internal.exception.FlywayProUpgradeRequiredException("undo");
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -1252,11 +1169,7 @@ public class Flyway implements FlywayConfiguration {
     public void validate() throws FlywayException {
         execute(new Command<Void>() {
             public Void execute(MigrationResolver migrationResolver, SchemaHistory schemaHistory, Database database,
-                                Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
+                                Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
                 doValidate(database, migrationResolver, schemaHistory, schemas, effectiveCallbacks, false);
                 return null;
             }
@@ -1298,11 +1211,7 @@ public class Flyway implements FlywayConfiguration {
     public void clean() {
         execute(new Command<Void>() {
             public Void execute(MigrationResolver migrationResolver, SchemaHistory schemaHistory, Database database,
-                                Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
+                                Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
                 new DbClean(database, schemaHistory, schemas, effectiveCallbacks, cleanDisabled).clean();
                 return null;
             }
@@ -1320,11 +1229,7 @@ public class Flyway implements FlywayConfiguration {
     public MigrationInfoService info() {
         return execute(new Command<MigrationInfoService>() {
             public MigrationInfoService execute(MigrationResolver migrationResolver, SchemaHistory schemaHistory,
-                                                final Database database, final Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
+                                                final Database database, final Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
                 return new DbInfo(migrationResolver, schemaHistory, database, Flyway.this, schemas, effectiveCallbacks).info();
             }
         });
@@ -1340,12 +1245,10 @@ public class Flyway implements FlywayConfiguration {
     public void baseline() throws FlywayException {
         execute(new Command<Void>() {
             public Void execute(MigrationResolver migrationResolver,
-                                SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
-                new DbSchemas(database, schemas, schemaHistory).create();
+                                SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
+                if (false) {
+                  new DbSchemas(database, schemas, schemaHistory).create();
+                }
                 new DbBaseline(database, schemaHistory, schemas[0], baselineVersion, baselineDescription, effectiveCallbacks).baseline();
                 return null;
             }
@@ -1365,11 +1268,7 @@ public class Flyway implements FlywayConfiguration {
     public void repair() throws FlywayException {
         execute(new Command<Void>() {
             public Void execute(MigrationResolver migrationResolver,
-                                SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks
-
-
-
-            ) {
+                                SchemaHistory schemaHistory, Database database, Schema[] schemas, List<FlywayCallback> effectiveCallbacks) {
                 new DbRepair(database, schemas[0], migrationResolver, schemaHistory, effectiveCallbacks).repair();
                 return null;
             }

@@ -88,6 +88,8 @@ public class MySQLNamedLockTemplate {
     }
 
     private boolean tryLock() throws SQLException {
-        return jdbcTemplate.queryForInt("SELECT GET_LOCK(?,10)", lockName) == 1;
+      LOG.info("lockName: " + lockName);
+        return true;
+//        return jdbcTemplate.queryForInt("SELECT GET_LOCK(?,10)", lockName) == 1;
     }
 }

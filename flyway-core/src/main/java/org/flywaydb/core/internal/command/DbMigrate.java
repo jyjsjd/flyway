@@ -174,11 +174,11 @@ public class DbMigrate {
                     ? migrateGroup(firstRun)
                     // Otherwise acquire the lock now. The lock will be released at the end of each migration.
                     : schemaHistory.lock(new Callable<Integer>() {
-                @Override
-                public Integer call() {
-                    return migrateGroup(firstRun);
-                }
-            });
+                        @Override
+                        public Integer call() {
+                            return migrateGroup(firstRun);
+                        }
+                    });
             total += count;
             if (count == 0) {
                 // No further migrations available
